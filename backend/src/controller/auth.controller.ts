@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import bcryptjs from "bcryptjs";
-import prisma from "../db/prisma";
-import { generateToken } from "../utils/generateToken";
-import getProfileUrl from "../contants/constant";
+import prisma from "../db/prisma.js";
+import { generateToken } from "../utils/generateToken.js";
+import getProfileUrl from "../contants/constant.js";
 
 export const signup = async (req: Request, res: Response): Promise<any> => {
   try {

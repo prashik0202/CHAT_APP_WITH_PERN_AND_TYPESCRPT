@@ -1,17 +1,11 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserForSidebar = exports.getMessages = exports.sendMessage = void 0;
-const prisma_1 = __importDefault(require("../db/prisma"));
-const socket_1 = require("../socket/socket");
-const sendMessage = async (req, res) => {
+import prisma from '../db/prisma.js';
+import { getReceiverSocketId, io } from '../socket/socket.js';
+export const sendMessage = async (req, res) => {
     try {
         const { message } = req.body;
         const { id: receiverId } = req.params;
         const senderId = req.user.id;
-        let conversation = await prisma_1.default.conversation.findFirst({
+        let conversation = await prisma.conversation.findFirst({
             where: {
                 participantsIds: {
                     hasEvery: [senderId, receiverId],
@@ -20,7 +14,7 @@ const sendMessage = async (req, res) => {
         });
         // very first conversation
         if (!conversation) {
-            conversation = await prisma_1.default.conversation.create({
+            conversation = await prisma.conversation.create({
                 data: {
                     participantsIds: {
                         set: [senderId, receiverId],
@@ -28,7 +22,7 @@ const sendMessage = async (req, res) => {
                 },
             });
         }
-        const newMessage = await prisma_1.default.message.create({
+        const newMessage = await prisma.message.create({
             data: {
                 senderId,
                 body: message,
@@ -36,7 +30,7 @@ const sendMessage = async (req, res) => {
             }
         });
         if (newMessage) {
-            conversation = await prisma_1.default.conversation.update({
+            conversation = await prisma.conversation.update({
                 where: {
                     id: conversation.id
                 },
@@ -49,9 +43,9 @@ const sendMessage = async (req, res) => {
                 }
             });
         }
-        const receiverSocketId = (0, socket_1.getReceiverSocketId)(receiverId);
+        const receiverSocketId = getReceiverSocketId(receiverId);
         if (receiverSocketId) {
-            socket_1.io.to(receiverSocketId).emit('newMessage', newMessage);
+            io.to(receiverSocketId).emit('newMessage', newMessage);
         }
         res.status(200).json(newMessage);
     }
@@ -60,12 +54,11 @@ const sendMessage = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
-exports.sendMessage = sendMessage;
-const getMessages = async (req, res) => {
+export const getMessages = async (req, res) => {
     try {
         const { id: userToChatId } = req.params;
         const senderId = req.user.id;
-        const conversation = await prisma_1.default.conversation.findFirst({
+        const conversation = await prisma.conversation.findFirst({
             where: {
                 participantsIds: {
                     hasEvery: [senderId, userToChatId],
@@ -90,11 +83,10 @@ const getMessages = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
-exports.getMessages = getMessages;
-const getUserForSidebar = async (req, res) => {
+export const getUserForSidebar = async (req, res) => {
     try {
         const AuthUserId = req.user.id;
-        const users = await prisma_1.default.user.findMany({
+        const users = await prisma.user.findMany({
             where: {
                 id: {
                     not: AuthUserId,
@@ -114,4 +106,3 @@ const getUserForSidebar = async (req, res) => {
         }
     }
 };
-exports.getUserForSidebar = getUserForSidebar;

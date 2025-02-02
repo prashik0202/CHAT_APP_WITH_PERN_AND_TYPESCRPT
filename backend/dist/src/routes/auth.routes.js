@@ -1,14 +1,9 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const auth_controller_1 = require("../controller/auth.controller");
-const protectRoutes_1 = __importDefault(require("../middleware/protectRoutes"));
-const router = express_1.default.Router();
-router.get("/me", protectRoutes_1.default, auth_controller_1.getUser);
-router.post("/login", auth_controller_1.login);
-router.post("/signup", auth_controller_1.signup);
-router.post("/logout", auth_controller_1.logout);
-exports.default = router;
+import express from "express";
+import { login, logout, getUser, signup, } from "../controller/auth.controller.js";
+import protectRoute from "../middleware/protectRoutes.js";
+const router = express.Router();
+router.get("/me", protectRoute, getUser);
+router.post("/login", login);
+router.post("/signup", signup);
+router.post("/logout", logout);
+export default router;

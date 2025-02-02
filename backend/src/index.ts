@@ -2,11 +2,11 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import path from "path"
-import { app, server } from './socket/socket'
+import { app, server } from './socket/socket.js'
 dotenv.config();
 
-import authRoutes from "./routes/auth.routes";
-import messageRoutes from "./routes/message.routes";
+import authRoutes from "./routes/auth.routes.js";
+import messageRoutes from "./routes/message.routes.js";
 
 const PORT = process.env.PORT || 3000;
 const __dirname = path.resolve();
