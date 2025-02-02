@@ -1,7 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import path from "path"
+// import path from "path"
 import { app, server } from './socket/socket.js'
 dotenv.config();
 
@@ -9,7 +9,7 @@ import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 
 const PORT = process.env.PORT || 3000;
-const __dirname = path.resolve();
+// const __dirname = path.resolve();
 // creating express application
 // const app = express();
 
@@ -29,12 +29,12 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/messages", messageRoutes);
 
-if(process.env.NODE_ENV !== "development") {
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
-  app.get("*", (req,res) => {
-    res.sendFile(path.join(__dirname, "frontend","dist","index.html"));
-  })
-}
+// if(process.env.NODE_ENV !== "development") {
+//   app.use(express.static(path.join(__dirname, "/frontend/dist")));
+//   app.get("*", (req,res) => {
+//     res.sendFile(path.join(__dirname, "frontend","dist","index.html"));
+//   })
+// }
 
 // now serving server application on port
 
