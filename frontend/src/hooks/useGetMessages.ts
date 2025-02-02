@@ -16,7 +16,6 @@ const useGetMessages = () => {
           `/api/v1/messages/${selectedConversation.id}`
         )
         const data = await response.json()
-        console.log(data)
         if (!response.ok) throw new Error(data.error || "An error occured")
         setMessages(data)
       } catch (error) {
