@@ -7,6 +7,7 @@ dotenv.config();
 
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
+import path from "path";
 
 const PORT = process.env.PORT || 3000;
 // const __dirname = path.resolve();
@@ -29,12 +30,12 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/messages", messageRoutes);
 
-// if(process.env.NODE_ENV !== "development") {
-//   app.use(express.static(path.join(__dirname, "/frontend/dist")));
-//   app.get("*", (req,res) => {
-//     res.sendFile(path.join(__dirname, "frontend","dist","index.html"));
-//   })
-// }
+if (process.env.NODE_ENV !== "development") {
+	app.use(express.static(path.join(__dirname, "/frontend/dist")));
+	app.get("*", (req, res) => {
+		res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+	});
+}
 
 // now serving server application on port
 

@@ -1,7 +1,13 @@
-import jwt from "jsonwebtoken";
-export const generateToken = (userId, res) => {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateToken = void 0;
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const generateToken = (userId, res) => {
     // create Token
-    const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+    const token = jsonwebtoken_1.default.sign({ userId }, process.env.JWT_SECRET, {
         expiresIn: "15d",
     });
     res.cookie("jwt", token, {
@@ -12,3 +18,5 @@ export const generateToken = (userId, res) => {
     });
     return token;
 };
+exports.generateToken = generateToken;
+//# sourceMappingURL=generateToken.js.map
