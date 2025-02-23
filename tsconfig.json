@@ -1,14 +1,17 @@
 {
 	"compilerOptions": {
-		"target": "ES6", // Specifies what version of ECMAScript the code should be compiled to.
-		"module": "CommonJS", // Specifies what module code should be generated.
-		"outDir": "./backend/dist", // Redirect output structure to the directory.
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./backend/dist", // Redirect output structure to the directory.
 		"rootDir": "./backend",
-		"sourceMap":  true, // Generates corresponding .map file.
-		"strict": true, // Enable all strict type-checking options.
-		"esModuleInterop": true, // This will allow you to use default imports with CommonJS modules.
-		"skipLibCheck": true // this option will skip type checking all .d.ts files.
-	},
+    "strict": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+		"noImplicitAny": false,
+  },
 	"ts-node": {
 		"esm": true
 	},
