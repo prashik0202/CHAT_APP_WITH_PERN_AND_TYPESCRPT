@@ -14,19 +14,19 @@ const app = express();
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors : {
-    origin : "*", //allowing request from specified origin 
-    methods : ["GET","POST"], // http methods allow for corsorign request
-  }
+  cors: {
+    origin: process.env.CLIENT_URL, //allowing request from specified origin
+    methods: ["GET", "POST"], // http methods allow for corsorign request
+  },
 });
 
 /**
  * Function to get the socket ID of specific user based on their user id
  * this is useful for sending targeted events to paticular user
  */
-export const getReceiverSocketId = (receiverId : string) => {
+export const getReceiverSocketId = (receiverId: string) => {
   return userSocketMap[receiverId];
-}
+};
 
 // Object to store a mapping between user IDs and their respective Socket IDs.
 // Example: { userId1: socketId1, userId2: socketId2 }
@@ -35,7 +35,7 @@ const userSocketMap: { [key: string]: string } = {};
 io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId as string;
 
-  if(userId){
+  if (userId) {
     userSocketMap[userId] = socket.id;
   }
 
@@ -48,10 +48,10 @@ io.on("connection", (socket) => {
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });
 
-  socket.on("error", (error) =>  {
+  socket.on("error", (error) => {
     console.log(error);
     socket.disconnect();
-  })
+  });
 });
 
 export { app, io, server };

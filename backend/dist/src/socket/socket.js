@@ -20,9 +20,9 @@ const server = http_1.default.createServer(app);
 exports.server = server;
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: "http://localhost:5173", //allowing request from specified origin 
+        origin: process.env.CLIENT_URL, //allowing request from specified origin
         methods: ["GET", "POST"], // http methods allow for corsorign request
-    }
+    },
 });
 exports.io = io;
 /**
