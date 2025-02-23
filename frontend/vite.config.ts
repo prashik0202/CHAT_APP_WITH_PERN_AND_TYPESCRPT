@@ -9,7 +9,9 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         "/api": {
-          target: env.BASE_URL || "http://localhost:8000",
+          target: env.VITE_BASE_URL || "http://localhost:3000",
+          changeOrigin: true,
+          secure: false,
         },
       },
     },
