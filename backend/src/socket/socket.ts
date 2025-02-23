@@ -15,7 +15,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors : {
-    origin : "https://chatapprash.vercel.app", //allowing request from specified origin 
+    origin : "*", //allowing request from specified origin 
     methods : ["GET","POST"], // http methods allow for corsorign request
   }
 });
